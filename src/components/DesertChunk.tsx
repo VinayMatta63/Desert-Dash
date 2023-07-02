@@ -3,12 +3,14 @@ import { useControls } from "leva";
 import Perlin from "../utils/Perlin";
 import { useMemo } from "react";
 import { RigidBody } from "@react-three/rapier";
+import Rocks from "./Rocks";
 
 interface DesertChunkProps {
+  chunkIndex: number;
   position: THREE.Vector3;
 }
 
-const DesertChunk = ({ position }: DesertChunkProps) => {
+const DesertChunk = ({ chunkIndex, position }: DesertChunkProps) => {
   const { color } = useControls("Ground", {
     color: "#ffd28e",
   });
@@ -55,17 +57,20 @@ const DesertChunk = ({ position }: DesertChunkProps) => {
   }, []);
 
   return (
-    <RigidBody
-      colliders="trimesh"
-      type="fixed"
-      friction={0.25}
-      restitution={0.01}
-    >
-      <mesh position={position} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <bufferGeometry attach="geometry" {...geometry} />
-        <meshLambertMaterial color={color} side={THREE.DoubleSide} />
-      </mesh>
-    </RigidBody>
+    <>
+      <RigidBody
+        colliders="trimesh"
+        type="fixed"
+        friction={0.25}
+        restitution={0.01}
+      >
+        <mesh position={position} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <bufferGeometry attach="geometry" {...geometry} />
+          <meshLambertMaterial color={color} side={THREE.DoubleSide} />
+        </mesh>
+      </RigidBody>
+      <Rocks chunkIndex={chunkIndex} />
+    </>
   );
 };
 

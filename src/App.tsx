@@ -16,10 +16,20 @@ const App = () => {
   });
 
   const ambientLight = useControls("Ambient Light", {
-    intensity: 0.15,
-    color: "white",
+    intensity: 0.3,
+    color: "#ffe1a4",
   });
 
+  const sun = useControls("Sky", {
+    distance: 450000,
+    sunPosition: [
+      0,
+      THREE.MathUtils.degToRad(2),
+      THREE.MathUtils.degToRad(0.25),
+    ],
+    inclination: 0,
+    azimuth: 0.25,
+  });
   return (
     <>
       <div className="canvas">
@@ -58,12 +68,12 @@ const App = () => {
               ]}
               castShadow
             />
-            {/* <OrbitControls /> */}
+            <OrbitControls />
             <Sky
-              distance={450000}
-              sunPosition={[0, 1, 0]}
-              inclination={0}
-              azimuth={0.25}
+              distance={sun.distance}
+              sunPosition={sun.sunPosition}
+              inclination={sun.inclination}
+              azimuth={sun.azimuth}
             />
             <Physics>
               <Car scale={0.005} position={[-40, 1.5, 0]} />
